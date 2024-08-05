@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        input, select, button {
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #results {
+            margin-top: 20px;
+        }
+        #results a {
+            display: block;
+            margin-bottom: 10px;
+            text-decoration: none;
+            color: #007bff;
+        }
+        #results a:hover {
+            text-decoration: underline;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Custom Search</h1>
+        <form action="/search" method="get">
+            <input type="text" name="query" placeholder="Enter search query" required>
+            <select name="searchType">
+                <option value="">Select Search Type</option>
+                <option value="web">Web Search</option>
+                <option value="image">Image Search</option>
+                <option value="fileType">File Type Search</option>
+            </select>
+            <input type="text" name="fileType" placeholder="File type (e.g., pdf)" style="display: none;">
+            <button type="submit">Search</button>
+        </form>
+        <div id="results">
+            {% if error %}
+                <p class="error">Error: {{ error }}</p>
+            {% elif results %}
+                {% for item in results %}
+                    <a href="{{ item.link }}" target="_blank">{{ item.title }}</a>
+                {% endfor %}
+            {% else %}
+                <p>No results found.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
